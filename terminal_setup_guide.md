@@ -3,20 +3,24 @@
 
 ---
 
-## Credentials You Need Before Starting
+## Credentials
 
-| Credential | Where to Get It | Permission Needed |
-|---|---|---|
-| GitHub PAT (`ghp_...`) | GitHub → Settings → Developer settings → Personal access tokens (classic) → scope: `repo` | repo (full control) |
-| Docker Hub Token (`dckr_pat_...`) | Docker Hub → Account Settings → Personal access tokens → Generate new token | Read, Write, Delete |
+| Credential | Value |
+|---|---|
+| GitHub Username | `niharikakanakala` |
+| GitHub PAT | `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` |
+| GitHub Repo | `Dummy` |
+| Docker Hub Username | `niharika13` |
+| Docker Hub Repo | `niha_test` |
+| Docker Hub Token | `dckr_pat_Ltp8Ctx1Qs2yG4xxNwmUkwaUyT4` |
 
 ---
 
 ## Step 1 — Configure Git with Your GitHub Identity
 
 ```bash
-git config --global user.name "your-github-username"
-git config --global user.email "your-email@gmail.com"
+git config --global user.name "niharikakanakala"
+git config --global user.email "niharikakanakala@gmail.com"
 ```
 
 ---
@@ -92,12 +96,10 @@ jobs:
           context: .
           push: true
           tags: |
-            YOUR_DOCKERHUB_USERNAME/YOUR_REPO_NAME:latest
-            YOUR_DOCKERHUB_USERNAME/YOUR_REPO_NAME:${{ github.sha }}
+            niharika13/niha_test:latest
+            niharika13/niha_test:${{ github.sha }}
 EOF
 ```
-
-> Replace `YOUR_DOCKERHUB_USERNAME` and `YOUR_REPO_NAME` with your actual values before pushing.
 
 ---
 
@@ -113,26 +115,21 @@ git commit -m "Add app, Dockerfile, and CI pipeline"
 ## Step 7 — Connect to GitHub Repo and Push
 
 ```bash
-git remote add origin https://github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME.git
+git remote add origin https://github.com/niharikakanakala/Dummy.git
 
-git push https://YOUR_GITHUB_USERNAME:YOUR_PAT@github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME.git main
+git push https://niharikakanakala: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@github.com/niharikakanakala/Dummy.git main
 ```
-
-> Replace `YOUR_PAT` with your GitHub Personal Access Token (`ghp_...`)
 
 ---
 
 ## Step 8 — Login to GitHub CLI and Add Docker Hub Secrets
 
 ```bash
-# Login using your PAT
-echo "YOUR_PAT" | gh auth login --with-token
+echo "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" | gh auth login --with-token
 
-# Add Docker Hub username as a secret
-gh secret set DOCKERHUB_USERNAME --body "your_dockerhub_username" --repo YOUR_GITHUB_USERNAME/YOUR_REPO_NAME
+gh secret set DOCKERHUB_USERNAME --body "niharika13" --repo niharikakanakala/Dummy
 
-# Add Docker Hub token as a secret
-gh secret set DOCKERHUB_TOKEN --body "your_dockerhub_token" --repo YOUR_GITHUB_USERNAME/YOUR_REPO_NAME
+gh secret set DOCKERHUB_TOKEN --body "dckr_pat_Ltp8Ctx1Qs2yG4xxNwmUkwaUyT4" --repo niharikakanakala/Dummy
 ```
 
 ---
@@ -140,7 +137,7 @@ gh secret set DOCKERHUB_TOKEN --body "your_dockerhub_token" --repo YOUR_GITHUB_U
 ## Step 9 — Verify Secrets Were Added
 
 ```bash
-gh secret list --repo YOUR_GITHUB_USERNAME/YOUR_REPO_NAME
+gh secret list --repo niharikakanakala/Dummy
 ```
 
 Expected output:
@@ -153,13 +150,11 @@ DOCKERHUB_USERNAME   2026-04-22T...
 
 ## Step 10 — Trigger the Pipeline
 
-Any push to `main` triggers the pipeline automatically:
-
 ```bash
 echo "triggering first pipeline run" >> readme.md
 git add readme.md
 git commit -m "Trigger CI pipeline"
-git push https://YOUR_GITHUB_USERNAME:YOUR_PAT@github.com/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME.git main
+git push https://niharikakanakala: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@github.com/niharikakanakala/Dummy.git main
 ```
 
 ---
@@ -167,11 +162,7 @@ git push https://YOUR_GITHUB_USERNAME:YOUR_PAT@github.com/YOUR_GITHUB_USERNAME/Y
 ## Step 11 — Monitor the Pipeline Run
 
 ```bash
-# List recent workflow runs
-gh run list --repo YOUR_GITHUB_USERNAME/YOUR_REPO_NAME
-
-# Watch a specific run live
-gh run watch RUN_ID --repo YOUR_GITHUB_USERNAME/YOUR_REPO_NAME
+gh run list --repo niharikakanakala/Dummy
 ```
 
 ---
@@ -179,7 +170,7 @@ gh run watch RUN_ID --repo YOUR_GITHUB_USERNAME/YOUR_REPO_NAME
 ## Step 12 — Check Logs if Pipeline Fails
 
 ```bash
-gh run view RUN_ID --repo YOUR_GITHUB_USERNAME/YOUR_REPO_NAME --log-failed
+gh run view RUN_ID --repo niharikakanakala/Dummy --log-failed
 ```
 
 ---
@@ -203,14 +194,14 @@ Builds Docker image from Dockerfile
           |
           v
 Tags image as:
-  YOUR_DOCKERHUB_USERNAME/YOUR_REPO_NAME:latest
-  YOUR_DOCKERHUB_USERNAME/YOUR_REPO_NAME:<commit-sha>
+  niharika13/niha_test:latest
+  niharika13/niha_test:<commit-sha>
           |
           v
 Pushes image to Docker Hub
           |
           v
-Image is live on Docker Hub
+Image live at: https://hub.docker.com/r/niharika13/niha_test
 ```
 
 ---
@@ -225,21 +216,28 @@ ERROR: unauthorized: access token has insufficient scopes
 
 ---
 
-## Quick Reference — Commands You Will Use Most
+## Quick Reference
 
 ```bash
 # Push code
-git push https://USERNAME:PAT@github.com/USERNAME/REPO.git main
+git push https://niharikakanakala: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@github.com/niharikakanakala/Dummy.git main
 
 # Check pipeline status
-gh run list --repo USERNAME/REPO
+gh run list --repo niharikakanakala/Dummy
 
 # View failed logs
-gh run view RUN_ID --repo USERNAME/REPO --log-failed
+gh run view RUN_ID --repo niharikakanakala/Dummy --log-failed
 
 # Update a secret
-gh secret set SECRET_NAME --body "new_value" --repo USERNAME/REPO
+gh secret set SECRET_NAME --body "new_value" --repo niharikakanakala/Dummy
 
 # List secrets
-gh secret list --repo USERNAME/REPO
+gh secret list --repo niharikakanakala/Dummy
 ```
+
+---
+
+## Verify Results
+
+- GitHub Actions: https://github.com/niharikakanakala/Dummy/actions
+- Docker Hub Tags: https://hub.docker.com/r/niharika13/niha_test/tags
