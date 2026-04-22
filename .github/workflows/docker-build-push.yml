@@ -3,7 +3,7 @@ name: Build and Push Docker Image
 on:
   push:
     branches:
-      - main
+      - '**'
 
 jobs:
   build-and-push:
@@ -25,5 +25,5 @@ jobs:
           context: .
           push: true
           tags: |
-            niharika13/niha_test:latest
-            niharika13/niha_test:${{ github.sha }}
+            niharika13/niha_test:${{ github.ref_name }}-latest
+            niharika13/niha_test:${{ github.ref_name }}-${{ github.sha }}
